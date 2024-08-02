@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "bookstack-helm.fullname" . }}
+  namespace: {{ .Values.meshwiki_app_namespace }}
+  labels:
+    {{- include "bookstack-helm.labels" . | nindent 4 }}
+spec:
+  rules:
+    - host: {{ .Values.bookstack.fqdn }}
+      http:
+        paths:
+          - path: "/"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ include "bookstack-helm.fullname" . }}-bookstack
+                port:
+                  number: {{ .Values.bookstack.port }}

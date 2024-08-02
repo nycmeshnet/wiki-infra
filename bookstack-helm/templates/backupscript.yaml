@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backup-script
+  namespace: {{ .Values.meshwiki_app_namespace }}
+data:
+  backup.sh: |
+    echo "Dumping db"
+    mysqldump -h "$DB_HOST" -u "$DB_USER" --password="$DB_PASS" "$DB_DATABASE" > wiki.sql
+    echo "Creating tarball"
+    backup_name="wiki_backup_$(date +%s).tar.gz"
+    tar -chzvf $backup_name wiki.sql /app/www/public/uploads/ /app/www/storage/uploads/ /app/www/public/img/
+    echo "push to s3"
+    apk add aws-cli
+    aws s3 cp ./$backup_name "$BACKUP_S3_URL"
+    echo "done"
+  restore.sh: |
+    echo "Checking if restore is needed"
+    echo "Restore file is: $RESTORE_S3_URL"
+    if [ "$RESTORE_S3_URL" != "skip" ]; then
+      echo "Restoring from $RESTORE_S3_URL"
+      apk add aws-cli
+      aws s3 cp "$RESTORE_S3_URL" /tmp/restore.tgz
+      echo "downloaded tarball"
+      tar -xzf /tmp/restore.tgz -C /
+      echo "Files restored"
+      mysql -h "$DB_HOST" -u "$DB_USER" --password="$DB_PASS" $DB_DATABASE < /wiki.sql
+    else
+      echo "Not restoring"
+    fi
+    echo "done"
