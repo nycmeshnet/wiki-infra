@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wikiconfig
+  namespace: {{ .Values.meshwiki_app_namespace }}
+data:
+  APP_URL: {{ .Values.bookstack.app_url | quote }}
+  DB_HOST: {{ include "bookstack-helm.fullname" . }}-db.{{ .Values.meshwiki_app_namespace }}.svc.cluster.local
+  DB_DATABASE: {{ .Values.bookstack.db.database_name | quote }}
+  TZ: {{ .Values.timezone | quote }}
+  APP_VIEWS_BOOKS: {{ .Values.bookstack.app_views_books | quote }}
+  ALLOWED_IFRAME_SOURCES: {{ .Values.bookstack.allowed_iframe_sources | quote }}
+  MAIL_HOST: {{ .Values.bookstack.mail.host | quote }}
+  MAIL_PORT: {{ .Values.bookstack.mail.port | quote }}
+  MAIL_FROM: {{ .Values.bookstack.mail.from | quote }}
+  MAIL_FROM_NAME: {{ .Values.bookstack.mail.from_name | quote }}

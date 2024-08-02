@@ -1,0 +1,137 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "bookstack-helm.fullname" . }}-bookstack
+  namespace: {{ .Values.meshwiki_app_namespace }}
+  labels:
+    {{- include "bookstack-helm.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "bookstack-helm.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "bookstack-helm.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}-bookstack
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          env:
+            - name: TZ
+              valueFrom:
+                configMapKeyRef:
+                  name: wikiconfig
+                  key: TZ
+            - name: APP_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: wikiconfig
+                  key: APP_URL
+            - name: APP_VIEWS_BOOKS
+              valueFrom:
+                configMapKeyRef:
+                  name: wikiconfig
+                  key: APP_VIEWS_BOOKS
+            - name: ALLOWED_IFRAME_SOURCES
+              valueFrom:
+                configMapKeyRef:
+                  name: wikiconfig
+                  key: ALLOWED_IFRAME_SOURCES
+            - name: MAIL_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: wikiconfig
+                  key: MAIL_HOST
+            - name: MAIL_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: wikiconfig
+                  key: MAIL_PORT
+            - name: MAIL_FROM
+              valueFrom:
+                configMapKeyRef:
+                  name: wikiconfig
+                  key: MAIL_FROM
+            - name: MAIL_FROM_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: wikiconfig
+                  key: MAIL_FROM_NAME
+            - name: MAIL_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: wiki-secrets
+                  key: mail-username
+            - name: MAIL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: wiki-secrets
+                  key: mail-password
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: wikiconfig
+                  key: DB_HOST
+            - name: DB_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: wikiconfig
+                  key: DB_DATABASE
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: wiki-secrets
+                  key: db-username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: wiki-secrets
+                  key: db-password
+          volumeMounts:
+            - name: config-vol
+              mountPath: /config
+            - name: image-uploads-vol
+              mountPath: /app/www/public/img
+          livenessProbe:
+            {{- toYaml .Values.livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: config-vol
+          persistentVolumeClaim:
+            claimName: {{ .Values.bookstack.config_pvc_name }}
+        - name: image-uploads-vol
+          persistentVolumeClaim:
+            claimName: {{ .Values.bookstack.image_pvc_name }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
