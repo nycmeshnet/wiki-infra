@@ -42,7 +42,7 @@ jobs:
             -n ${{ vars.APP_NAMESPACE }} \
             --create-namespace \
             wiki \
-            bookstack-helm
+            bookstack-helm \
             -f ./bookstack-helm/values.yaml \
             --set bookstack.db.username="${{ secrets.DB_USERNAME }}" \
             --set bookstack.db.password="${{ secrets.DB_PASSWORD }}" \
@@ -85,7 +85,7 @@ jobs:
             -n ${{ vars.APP_NAMESPACE }} \
             --create-namespace \
             wiki \
-            bookstack-helm
+            bookstack-helm \
             -f ./bookstack-helm/values.yaml \
             --set bookstack.db.username="${{ secrets.DB_USERNAME }}" \
             --set bookstack.db.password="${{ secrets.DB_PASSWORD }}" \
