@@ -9,7 +9,7 @@ bookstack:
   app_url: https://devwiki.mesh.nycmesh.net
   app_views_books: list
   allowed_iframe_sources: "https://*.draw.io https://*.youtube.com https://*.youtube-nocookie.com https://*.vimeo.com https://*.google.com"
-  port: 6875
+  port: 80
   db:
     database_name: bookstackapp
     pvc_name: wikidb
