@@ -37,7 +37,7 @@ jobs:
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_TARGET_IP }} "\
             sudo bash -c '\
-              helm install ./bookstack-helm -f ./bookstack-helm/values.yaml \
+              helm install -f ./bookstack-helm/values.yaml wiki ./bookstack-helm \
                 --set bookstack.db.username=\"${{ secrets.DB_USERNAME }}\" \
                 --set bookstack.db.password=\"${{ secrets.DB_PASSWORD }}\" \
                 --set bookstack.db.root_password=\"${{ secrets.ROOT_PASSWORD }}\" \
@@ -75,7 +75,7 @@ jobs:
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_TARGET_IP }} "\
             sudo bash -c '\
-              helm install ./bookstack-helm -f ./bookstack-helm/values.yaml \
+              helm install -f ./bookstack-helm/values.yaml wiki ./bookstack-helm \
                 --set bookstack.db.username=\"${{ secrets.DB_USERNAME }}\" \
                 --set bookstack.db.password=\"${{ secrets.DB_PASSWORD }}\" \
                 --set bookstack.db.root_password=\"${{ secrets.ROOT_PASSWORD }}\" \
