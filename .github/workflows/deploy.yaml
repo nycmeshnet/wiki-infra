@@ -35,9 +35,9 @@ jobs:
 
       - name: Install Helm Chart
         run: |
-          mkdir ~/.kube/
-          scp ${{ secrets.SSH_USER }}@${{ secrets.SSH_TARGET_IP }}:~/.kube/config ~/.kube/config
+          scp ${{ secrets.SSH_USER }}@${{ secrets.SSH_TARGET_IP }}:~/.kube/config ./
           helm install \
+            --kubeconfig ./config \
             --kube-apiserver ${{ secrets.SSH_TARGET_IP }}:6443 \
             -n ${{ vars.APP_NAMESPACE }} \
             --create-namespace \
@@ -78,9 +78,9 @@ jobs:
 
       - name: Install Helm Chart
         run: |
-          mkdir ~/.kube/
-          scp ${{ secrets.SSH_USER }}@${{ secrets.SSH_TARGET_IP }}:~/.kube/config ~/.kube/config
+          scp ${{ secrets.SSH_USER }}@${{ secrets.SSH_TARGET_IP }}:~/.kube/config ./
           helm install \
+            --kubeconfig ./config \
             --kube-apiserver ${{ secrets.SSH_TARGET_IP }}:6443 \
             -n ${{ vars.APP_NAMESPACE }} \
             --create-namespace \
