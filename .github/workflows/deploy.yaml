@@ -44,11 +44,11 @@ jobs:
             wiki \
             bookstack-helm
             -f ./bookstack-helm/values.yaml \
-            --set bookstack.db.username=\"${{ secrets.DB_USERNAME }}\" \
-            --set bookstack.db.password=\"${{ secrets.DB_PASSWORD }}\" \
-            --set bookstack.db.root_password=\"${{ secrets.ROOT_PASSWORD }}\" \
-            --set bookstack.mail.username=\"${{ secrets.MAIL_USERNAME }}\" \
-            --set bookstack.mail.password=\"${{ secrets.MAIL_PASSWORD }}\"
+            --set bookstack.db.username="${{ secrets.DB_USERNAME }}" \
+            --set bookstack.db.password="${{ secrets.DB_PASSWORD }}" \
+            --set bookstack.db.root_password="${{ secrets.ROOT_PASSWORD }}" \
+            --set bookstack.mail.username="${{ secrets.MAIL_USERNAME }}" \
+            --set bookstack.mail.password="${{ secrets.MAIL_PASSWORD }}"
 
   deploy_to_prod1:
       name: Deploy to prod 1
@@ -87,8 +87,8 @@ jobs:
             wiki \
             bookstack-helm
             -f ./bookstack-helm/values.yaml \
-            --set bookstack.db.username=\"${{ secrets.DB_USERNAME }}\" \
-            --set bookstack.db.password=\"${{ secrets.DB_PASSWORD }}\" \
-            --set bookstack.db.root_password=\"${{ secrets.ROOT_PASSWORD }}\" \
-            --set bookstack.mail.username=\"${{ secrets.MAIL_USERNAME }}\" \
-            --set bookstack.mail.password=\"${{ secrets.MAIL_PASSWORD }}\"
+            --set bookstack.db.username="${{ secrets.DB_USERNAME }}" \
+            --set bookstack.db.password="${{ secrets.DB_PASSWORD }}" \
+            --set bookstack.db.root_password="${{ secrets.ROOT_PASSWORD }}" \
+            --set bookstack.mail.username="${{ secrets.MAIL_USERNAME }}" \
+            --set bookstack.mail.password="${{ secrets.MAIL_PASSWORD }}"
