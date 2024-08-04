@@ -38,7 +38,7 @@ jobs:
           scp ${{ secrets.SSH_USER }}@${{ secrets.SSH_TARGET_IP }}:~/.kube/config ./
           helm install \
             --kubeconfig ./config \
-            --kube-apiserver ${{ secrets.SSH_TARGET_IP }}:6443 \
+            --kube-apiserver https://${{ secrets.SSH_TARGET_IP }}:6443 \
             -n ${{ vars.APP_NAMESPACE }} \
             --create-namespace \
             wiki \
@@ -81,7 +81,7 @@ jobs:
           scp ${{ secrets.SSH_USER }}@${{ secrets.SSH_TARGET_IP }}:~/.kube/config ./
           helm install \
             --kubeconfig ./config \
-            --kube-apiserver ${{ secrets.SSH_TARGET_IP }}:6443 \
+            --kube-apiserver https://${{ secrets.SSH_TARGET_IP }}:6443 \
             -n ${{ vars.APP_NAMESPACE }} \
             --create-namespace \
             wiki \
