@@ -35,15 +35,19 @@ jobs:
 
       - name: Install Helm Chart
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_TARGET_IP }} "\
-            sudo bash -c '\
-              helm install -f ./bookstack-helm/values.yaml wiki ./bookstack-helm \
-                --set bookstack.db.username=\"${{ secrets.DB_USERNAME }}\" \
-                --set bookstack.db.password=\"${{ secrets.DB_PASSWORD }}\" \
-                --set bookstack.db.root_password=\"${{ secrets.ROOT_PASSWORD }}\" \
-                --set bookstack.mail.username=\"${{ secrets.MAIL_USERNAME }}\" \
-                --set bookstack.mail.password=\"${{ secrets.MAIL_PASSWORD }}\" \
-            '"
+          scp ${{ secrets.SSH_USER }}@${{ secrets.SSH_TARGET_IP }}:~/.kube/config ./
+          helm install \
+            --kube-apiserver ${{ secrets.SSH_TARGET_IP }}:6443 \
+            -n ${{ vars.APP_NAMESPACE }} \
+            --create-namespace \
+            wiki \
+            bookstack-helm
+            -f ./bookstack-helm/values.yaml \
+            --set bookstack.db.username=\"${{ secrets.DB_USERNAME }}\" \
+            --set bookstack.db.password=\"${{ secrets.DB_PASSWORD }}\" \
+            --set bookstack.db.root_password=\"${{ secrets.ROOT_PASSWORD }}\" \
+            --set bookstack.mail.username=\"${{ secrets.MAIL_USERNAME }}\" \
+            --set bookstack.mail.password=\"${{ secrets.MAIL_PASSWORD }}\"
 
   deploy_to_prod1:
       name: Deploy to prod 1
@@ -73,12 +77,16 @@ jobs:
 
       - name: Install Helm Chart
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_TARGET_IP }} "\
-            sudo bash -c '\
-              helm install -f ./bookstack-helm/values.yaml wiki ./bookstack-helm \
-                --set bookstack.db.username=\"${{ secrets.DB_USERNAME }}\" \
-                --set bookstack.db.password=\"${{ secrets.DB_PASSWORD }}\" \
-                --set bookstack.db.root_password=\"${{ secrets.ROOT_PASSWORD }}\" \
-                --set bookstack.mail.username=\"${{ secrets.MAIL_USERNAME }}\" \
-                --set bookstack.mail.password=\"${{ secrets.MAIL_PASSWORD }}\" \
-            '"
+          scp ${{ secrets.SSH_USER }}@${{ secrets.SSH_TARGET_IP }}:~/.kube/config ./
+          helm install \
+            --kube-apiserver ${{ secrets.SSH_TARGET_IP }}:6443 \
+            -n ${{ vars.APP_NAMESPACE }} \
+            --create-namespace \
+            wiki \
+            bookstack-helm
+            -f ./bookstack-helm/values.yaml \
+            --set bookstack.db.username=\"${{ secrets.DB_USERNAME }}\" \
+            --set bookstack.db.password=\"${{ secrets.DB_PASSWORD }}\" \
+            --set bookstack.db.root_password=\"${{ secrets.ROOT_PASSWORD }}\" \
+            --set bookstack.mail.username=\"${{ secrets.MAIL_USERNAME }}\" \
+            --set bookstack.mail.password=\"${{ secrets.MAIL_PASSWORD }}\"
