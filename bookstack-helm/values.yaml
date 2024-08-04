@@ -12,7 +12,7 @@ bookstack:
   port: 6875
   db:
     database_name: bookstackapp
-    pvc_name: wiki_db
+    pvc_name: wikidb
     pvc_size: 5Gi
     port: 3306
   mail:
@@ -20,9 +20,9 @@ bookstack:
     port: 587
     from: "nycmeshwiki@gmail.com"
     from_name: "NYC Mesh Wiki"
-  config_pvc_name: wiki_config
+  config_pvc_name: wikiconfig
   config_pvc_size: 5Gi
-  image_pvc_name: wiki_images
+  image_pvc_name: wikiimages
   image_pvc_size: 5Gi
 
 image:
