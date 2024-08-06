@@ -6,7 +6,8 @@ on:
 
 permissions: read-all
 
-deploy_to_dev3:
+jobs:
+  deploy_to_dev3:
     name: Deploy to dev 3
     uses: ./.github/workflows/helm_deploy.yaml
     with:
