@@ -95,12 +95,12 @@ spec:
                 configMapKeyRef:
                   name: wikiconfig
                   key: DB_DATABASE
-            - name: DB_USERNAME
+            - name: DB_USER
               valueFrom:
                 secretKeyRef:
                   name: wiki-secrets
                   key: db-username
-            - name: DB_PASSWORD
+            - name: DB_PASS
               valueFrom:
                 secretKeyRef:
                   name: wiki-secrets
