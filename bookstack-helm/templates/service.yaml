@@ -30,4 +30,4 @@ spec:
       protocol: TCP
       name: db
   selector:
-    {{- include "bookstack-helm.selectorLabels" . | nindent 4 }}-db
+    app: wiki-db
