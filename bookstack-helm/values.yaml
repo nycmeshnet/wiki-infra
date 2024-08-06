@@ -24,6 +24,8 @@ bookstack:
   config_pvc_size: 5Gi
   image_pvc_name: wikiimages
   image_pvc_size: 5Gi
+  backup:
+    cron_schedule: "33 3 * * *"
 
 image:
   repository: lscr.io/linuxserver/bookstack

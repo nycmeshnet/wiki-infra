@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backup-script
+  namespace: {{ .Values.meshwiki_app_namespace }}
+data:
+  backup.sh: |
+    echo "Dumping db"
+    mysqldump -h "$DB_HOST" -u "$DB_USER" --password="$DB_PASS" "$DB_DATABASE" > wiki.sql
+    echo "Creating tarball"
+    backup_name="wiki_backup_$(date +%s).tar.gz"
+    tar -chzvf $backup_name wiki.sql /app/www/public/uploads/ /app/www/storage/uploads/
+    echo "push to s3"
+    apk add aws-cli
+    aws s3 cp ./$backup_name "$BACKUP_S3_URL"
