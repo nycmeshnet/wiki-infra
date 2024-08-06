@@ -14,7 +14,7 @@ spec:
       name: http
       nodePort: 30875
   selector:
-    {{- include "bookstack-helm.selectorLabels" . | nindent 4 }}-bookstack
+    app: bookstack
 ---
 apiVersion: v1
 kind: Service
