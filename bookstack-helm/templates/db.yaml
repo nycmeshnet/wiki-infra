@@ -17,7 +17,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "bookstack-helm.labels" . | nindent 8 }}
+        {{- include "bookstack-helm.labels" . | nindent 8 }}-db
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
