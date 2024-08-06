@@ -9,6 +9,7 @@ spec:
     spec:
       template:
         spec:
+          restartPolicy: OnFailure
           containers:
           - name: backupjob
             image: "{{ .Values.db_image.repository }}:{{ .Values.db_image.tag }}"
@@ -21,7 +22,6 @@ spec:
               mountPath: /backup.sh
               subPath: backup.sh
               readOnly: true
-            restartPolicy: OnFailure
             env:
             - name: DB_HOST
               valueFrom:
