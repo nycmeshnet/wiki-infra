@@ -50,7 +50,4 @@ jobs:
             --set bookstack.db.password="${{ secrets.DB_PASSWORD }}" \
             --set bookstack.db.root_password="${{ secrets.ROOT_PASSWORD }}" \
             --set bookstack.mail.username="${{ secrets.MAIL_USERNAME }}" \
-            --set bookstack.mail.password="${{ secrets.MAIL_PASSWORD }}" \
-            --set bookstack.aws.backup_s3_url="${{ secrets.BACKUP_S3_URL }}" \ 
-            --set bookstack.aws.access_key_id="${{ secrets.ACCESS_KEY_ID }}" \ 
-            --set bookstack.aws.secret_access_key="${{ secrets.SECRET_ACCESS_KEY }}"
+            --set bookstack.mail.password="${{ secrets.MAIL_PASSWORD }}"
