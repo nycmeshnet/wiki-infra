@@ -31,8 +31,8 @@ spec:
           image: "{{ .Values.db_image.repository }}:{{ .Values.db_image.tag }}"
           imagePullPolicy: {{ .Values.db_image.pullPolicy }}
           ports:
-            - name: http
-              containerPort: {{ .Values.service.port }}
+            - name: db
+              containerPort: {{ .Values.bookstack.db.port }}
               protocol: TCP
           env:
             - name: TZ
