@@ -61,7 +61,7 @@ spec:
           volumes:
           - name: backup-script
             configMap:
-              name: script
+              name: backup-script
               items:
                 - key: backup.sh
                   path: backup.sh
