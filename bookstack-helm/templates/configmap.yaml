@@ -4,7 +4,7 @@ metadata:
   name: wikiconfig
   namespace: {{ .Values.meshwiki_app_namespace }}
 data:
-  APP_URL: {{ .Values.bookstack.app_url | quote }}
+  APP_URL: https://{{ .Values.bookstack.fqdn }}
   DB_HOST: {{ include "bookstack-helm.fullname" . }}-db.{{ .Values.meshwiki_app_namespace }}.svc.cluster.local
   DB_DATABASE: {{ .Values.bookstack.db.database_name | quote }}
   TZ: {{ .Values.timezone | quote }}

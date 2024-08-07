@@ -6,7 +6,7 @@ meshwiki_app_namespace: "wiki"
 timezone: "America/New_York"
 
 bookstack:
-  app_url: https://devwiki.mesh.nycmesh.net
+  fqdn: devwiki.mesh.nycmesh.net
   app_views_books: list
   allowed_iframe_sources: "https://*.draw.io https://*.youtube.com https://*.youtube-nocookie.com https://*.vimeo.com https://*.google.com"
   port: 80
@@ -70,22 +70,6 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 8080
-
-ingress:
-  enabled: false
-  className: ""
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: chart-example.local
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

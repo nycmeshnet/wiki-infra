@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "bookstack-helm.fullname" . }}-db
+  namespace: {{ .Values.meshwiki_app_namespace }}
+  labels:
+    {{- include "bookstack-helm.labels" . | nindent 4 }}
+spec:
+  ports:
+    - port: {{ .Values.bookstack.db.port }}
+      targetPort: {{ .Values.bookstack.db.port }}
+      protocol: TCP
+      name: db
+  selector:
+    app: wiki-db
