@@ -17,7 +17,7 @@ data:
   restore.sh: |
     echo "Checking if restore is needed"
     echo "Restore file is: $RESTORE_S3_URL"
-    if [ "$RESTORE_S3_URL" != "skip" ]; then
+    if [ ! -z "$RESTORE_S3_URL" ]; then
       echo "Restoring from $RESTORE_S3_URL"
       apk add aws-cli
       aws s3 cp "$RESTORE_S3_URL" /tmp/restore.tgz
