@@ -24,7 +24,7 @@ data:
       echo "downloaded tarball"
       tar -xzf /tmp/restore.tgz -C /
       echo "Files restored"
-      mysql -h "$DB_HOST" -u "$DB_USER" --password="$DB_PASS" < /wiki.sql
+      mysql -h "$DB_HOST" -u "$DB_USER" --password="$DB_PASS" $DB_DATABASE < /wiki.sql
     else
       echo "Not restoring"
     fi
