@@ -5,6 +5,8 @@ metadata:
   namespace: {{ .Values.meshwiki_app_namespace }}
 data:
   APP_URL: https://{{ .Values.bookstack.fqdn }}
+  PUID: {{ .Values.bookstack.uid | quote }}
+  PGID: {{ .Values.bookstack.gid | quote }}
   DB_HOST: {{ include "bookstack-helm.fullname" . }}-db.{{ .Values.meshwiki_app_namespace }}.svc.cluster.local
   DB_DATABASE: {{ .Values.bookstack.db.database_name | quote }}
   TZ: {{ .Values.timezone | quote }}

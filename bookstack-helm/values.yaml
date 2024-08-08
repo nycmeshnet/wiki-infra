@@ -10,6 +10,8 @@ bookstack:
   app_views_books: list
   allowed_iframe_sources: "https://*.draw.io https://*.youtube.com https://*.youtube-nocookie.com https://*.vimeo.com https://*.google.com"
   port: 80
+  uid: 1000
+  gid: 1000
   db:
     database_name: bookstackapp
     pvc_name: wikidb

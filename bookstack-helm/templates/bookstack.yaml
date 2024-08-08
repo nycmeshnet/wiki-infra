@@ -41,6 +41,16 @@ spec:
                 configMapKeyRef:
                   name: wikiconfig
                   key: TZ
+            - name: PUID
+              valueFrom:
+                configMapKeyRef:
+                  name: wikiconfig
+                  key: PUID
+            - name: PGID
+              valueFrom:
+                configMapKeyRef:
+                  name: wikiconfig
+                  key: PGID
             - name: APP_URL
               valueFrom:
                 configMapKeyRef:
