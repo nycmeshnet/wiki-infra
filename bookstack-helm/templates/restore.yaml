@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: restorejob
-  namespace: { { .Values.meshwiki_app_namespace } }
+  namespace: {{ .Values.meshwiki_app_namespace }}
 spec:
   jobTemplate:
     spec:
@@ -11,7 +11,7 @@ spec:
           containers:
             - name: restorejob
               image: "{{ .Values.db_image.repository }}:{{ .Values.db_image.tag }}"
-              imagePullPolicy: { { .Values.db_image.pullPolicy } }
+              imagePullPolicy: {{ .Values.db_image.pullPolicy }}
               command:
                 - /bin/bash
                 - /restore.sh
