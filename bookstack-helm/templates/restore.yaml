@@ -1,0 +1,61 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: restorejob
+  namespace: {{ .Values.meshwiki_app_namespace }}
+spec:
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: restorejob
+            image: "{{ .Values.db_image.repository }}:{{ .Values.db_image.tag }}"
+            imagePullPolicy: {{ .Values.db_image.pullPolicy }}
+            command:
+            - /bin/bash
+            - /restore.sh
+            volumeMounts:
+            - name: backup-script
+              mountPath: /restore.sh
+              subPath: restore.sh
+              readOnly: true
+            env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: wikiconfig
+                  key: DB_HOST
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: wiki-secrets
+                  key: db-username
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: wiki-secrets
+                  key: db-password
+            - name: RESTORE_S3_URL
+              valueFrom:
+                secretKeyRef:
+                  name: wiki-secrets
+                  key: restore-s3-url
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: wiki-secrets
+                  key: access-key-id
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: wiki-secrets
+                  key: secret-access-key
+          volumes:
+          - name: backup-script
+            configMap:
+              name: backup-script
+              items:
+                - key: restore.sh
+                  path: restore.sh
