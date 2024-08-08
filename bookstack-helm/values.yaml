@@ -39,7 +39,7 @@ db_image:
   repository: lscr.io/linuxserver/mariadb
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v23.02.2-ls71"
+  tag: "latest"
 
 nameOverride: ""
 fullnameOverride: ""
