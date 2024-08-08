@@ -8,11 +8,11 @@ spec:
     spec:
       template:
         spec:
-          restartPolicy: OnFailure
           containers:
           - name: restorejob
             image: "{{ .Values.db_image.repository }}:{{ .Values.db_image.tag }}"
             imagePullPolicy: {{ .Values.db_image.pullPolicy }}
+            restartPolicy: OnFailure
             command:
             - /bin/bash
             - /restore.sh
