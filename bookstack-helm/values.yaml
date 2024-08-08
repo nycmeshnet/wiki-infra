@@ -6,7 +6,6 @@ meshwiki_app_namespace: "wiki"
 timezone: "America/New_York"
 
 bookstack:
-  fqdn: devwiki.mesh.nycmesh.net
   app_views_books: list
   allowed_iframe_sources: "https://*.draw.io https://*.youtube.com https://*.youtube-nocookie.com https://*.vimeo.com https://*.google.com"
   port: 80
