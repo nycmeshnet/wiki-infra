@@ -13,7 +13,7 @@ jobs:
     with:
       environment: dev3
     secrets: inherit
-    #if: github.ref == 'refs/heads/main'
+    #if: github.ref == 'refs/heads/master'
 
   deploy_to_prod1:
     name: Deploy to prod 1
@@ -21,4 +21,4 @@ jobs:
     with:
       environment: prod1
     secrets: inherit
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master'
