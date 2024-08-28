@@ -19,7 +19,7 @@ bookstack:
   mail:
     host: smtp.gmail.com
     port: 587
-    from: "nycmeshwiki@gmail.com"
+    from: "noreply+wiki@nycmesh.net"
     from_name: "NYC Mesh Wiki"
   config_pvc_name: wikiconfig
   config_pvc_size: 5Gi
