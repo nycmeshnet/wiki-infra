@@ -55,3 +55,6 @@ jobs:
             --set bookstack.aws.access_key_id="${{ secrets.ACCESS_KEY_ID }}" \
             --set bookstack.aws.secret_access_key="${{ secrets.SECRET_ACCESS_KEY }}" \
             --set bookstack.aws.backup_s3_url="${{ secrets.BACKUP_S3_URL }}"
+
+          # Rolling restart
+          kubectl --kubeconfig ./config --server https://${{ secrets.SSH_TARGET_IP }}:6443 -n ${{ vars.APP_NAMESPACE }} rollout restart deploy
