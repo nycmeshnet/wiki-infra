@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: backupjob-db
+  name: backupjob-files
   namespace: {{ .Values.meshwiki_app_namespace }}
 spec:
   schedule: {{ .Values.bookstack.backup.cron_schedule | quote }}
@@ -11,38 +11,18 @@ spec:
         spec:
           restartPolicy: OnFailure
           containers:
-            - name: backupjob-db
-              image: "{{ .Values.db_image.repository }}:{{ .Values.db_image.tag }}"
-              imagePullPolicy: {{ .Values.db_image.pullPolicy }}
+            - name: backupjob-files
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
               command:
                 - /bin/bash
-                - /backup.db.sh
+                - /backup.files.sh
               volumeMounts:
                 - name: backup-script
-                  mountPath: /backup.db.sh
-                  subPath: backup.db.sh
+                  mountPath: /backup.files.sh
+                  subPath: backup.files.sh
                   readOnly: true
               env:
-                - name: DB_HOST
-                  valueFrom:
-                    configMapKeyRef:
-                      name: wikiconfig
-                      key: DB_HOST
-                - name: DB_DATABASE
-                  valueFrom:
-                    configMapKeyRef:
-                      name: wikiconfig
-                      key: DB_DATABASE
-                - name: DB_USER
-                  valueFrom:
-                    secretKeyRef:
-                      name: wiki-secrets
-                      key: db-username
-                - name: DB_PASS
-                  valueFrom:
-                    secretKeyRef:
-                      name: wiki-secrets
-                      key: db-password
                 - name: BACKUP_S3_URL
                   valueFrom:
                     secretKeyRef:
@@ -63,5 +43,5 @@ spec:
               configMap:
                 name: backup-script
                 items:
-                  - key: backup.db.sh
-                    path: backup.db.sh
+                  - key: backup.files.sh
+                    path: backup.files.sh
