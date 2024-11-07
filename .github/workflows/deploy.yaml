@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   push:
-    branches: [ master, james/files_backup ]
+    branches: [ master ]
   workflow_dispatch:
     branches:
       - master
