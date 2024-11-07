@@ -61,6 +61,11 @@ spec:
                 secretKeyRef:
                   name: wiki-secrets
                   key: db-root-password
+            - name: APP_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: wikiconfig
+                  key: APP_URL
           volumeMounts:
             - name: mysql-data-vol
               mountPath: /config

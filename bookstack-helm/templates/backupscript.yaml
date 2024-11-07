@@ -5,6 +5,7 @@ metadata:
   namespace: {{ .Values.meshwiki_app_namespace }}
 data:
   backup.db.sh: |
+    if [ "$APP_URL" != "https://wiki.nycmesh.net" ]; then echo "Skip on $APP_URL"; exit 0; fi
     echo "Dumping db"
     mysqldump -h "$DB_HOST" -u "$DB_USER" --password="$DB_PASS" "$DB_DATABASE" > wiki.sql
     echo "Creating tarball"
@@ -18,6 +19,7 @@ data:
     rm wiki.sql
     echo "done"
   backup.files.sh: |
+    if [ "$APP_URL" != "https://wiki.nycmesh.net" ]; then echo "Skip on $APP_URL"; exit 0; fi
     echo "Creating tarball"
     cd /config
     backup_name="wiki_backup_files_$(date +%s).tar.gz"
