@@ -121,12 +121,24 @@ spec:
               mountPath: /config
             - name: image-uploads-vol
               mountPath: /app/www/public/img
+            - name: backup-script
+              mountPath: /backup.files.sh
+              subPath: backup.files.sh
+              readOnly: true
+            - name: backup-hook
+              mountPath: /backup.files.hook.sh
+              subPath: backup.files.hook.sh
+              readOnly: true
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:
             {{- toYaml .Values.readinessProbe | nindent 12 }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "/backup.files.hook.sh"]
       volumes:
         - name: config-vol
           persistentVolumeClaim:
@@ -134,6 +146,18 @@ spec:
         - name: image-uploads-vol
           persistentVolumeClaim:
             claimName: {{ .Values.bookstack.image_pvc_name }}
+        - name: backup-script
+          configMap:
+            name: backup-script
+            items:
+              - key: backup.files.sh
+                path: backup.files.sh
+        - name: backup-hook
+          configMap:
+            name: backup-hook
+            items:
+              - key: backup.files.hook.sh
+                path: backup.files.hook.sh
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

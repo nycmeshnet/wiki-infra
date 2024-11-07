@@ -13,6 +13,9 @@ data:
     echo "push to s3"
     apk add aws-cli
     aws s3 cp ./$backup_name "$BACKUP_S3_URL"
+    echo "uploaded"
+    rm $backup_name
+    rm wiki.sql
     echo "done"
   backup.files.sh: |
     echo "Creating tarball"
@@ -21,6 +24,11 @@ data:
     echo "push to s3"
     apk add aws-cli
     aws s3 cp ./$backup_name "$BACKUP_S3_URL"
+    echo "uploaded"
+    rm $backup_name
+    echo "done"
+  backup.files.hook.sh: |
+    echo "setting hook"
     echo "done"
   restore.db.sh: |
     echo "Checking if restore is needed"
