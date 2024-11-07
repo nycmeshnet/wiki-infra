@@ -154,7 +154,7 @@ spec:
                 path: backup.files.sh
         - name: backup-hook
           configMap:
-            name: backup-hook
+            name: backup-script
             items:
               - key: backup.files.hook.sh
                 path: backup.files.hook.sh
