@@ -30,7 +30,7 @@ data:
     echo "done"
   backup.files.hook.sh: |
     echo "setting hook"
-    echo "sh -c '/backup.files.sh'" >> /etc/periodic/daily/backup
+    echo "sh /backup.files.sh" >> /etc/periodic/daily/backup
     echo "done"
   restore.db.sh: |
     echo "Checking if restore is needed"
