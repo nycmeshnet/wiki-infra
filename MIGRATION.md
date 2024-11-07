@@ -1,10 +1,14 @@
 # Wiki Infra
 
-This repository holds the helm chart and github actions workflows used to deploy the [NYC Mesh Wiki](https://wiki.nycmesh.net).
-
 ## Backups
 
-Daily backups are sent to S3.
+```
+docker exec 55fb8319dfd0 tar -chvf /config/wiki.tar /app/www/public/uploads/ /app/www/storage/uploads/ /app/www/public/img/
+docker exec 00bf1e961d6b mysqldump -u bookstack --password=$THE_REAL_THING bookstackapp > wiki.sql
+tar --append -f wiki.tar wiki.sql
+gzip < wiki.tar > wiki.tgz
+# upload the tgz to s3...
+```
 
 ## Restore
 
@@ -141,4 +145,12 @@ kubectl apply -f restore.db.yaml
 # wait for it to complete
 kubectl get all -n wiki
 kubectl scale --replicas=1 deployment.apps/wiki-bookstack-helm-db -n wiki
+```
+
+3. If the url is changing, you may need the following:
+
+```
+kubectl exec -n wiki -it pod/wiki-bookstack-helm-bookstack-695945475d-mrlhf bash
+cd /app/www
+php artisan bookstack:update-url https://wiki.mesh.nycmesh.net https://devwiki.mesh.nycmesh.net
 ```

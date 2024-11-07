@@ -5,6 +5,7 @@ metadata:
   namespace: {{ .Values.meshwiki_app_namespace }}
 data:
   backup.db.sh: |
+    if [ "$APP_URL" != "https://wiki.nycmesh.net" ]; then echo "Skip on $APP_URL"; exit 0; fi
     echo "Dumping db"
     mysqldump -h "$DB_HOST" -u "$DB_USER" --password="$DB_PASS" "$DB_DATABASE" > wiki.sql
     echo "Creating tarball"
@@ -13,14 +14,26 @@ data:
     echo "push to s3"
     apk add aws-cli
     aws s3 cp ./$backup_name "$BACKUP_S3_URL"
+    echo "uploaded"
+    rm $backup_name
+    rm wiki.sql
     echo "done"
   backup.files.sh: |
+    if [ "$APP_URL" != "https://wiki.nycmesh.net" ]; then echo "Skip on $APP_URL"; exit 0; fi
     echo "Creating tarball"
+    cd /config
     backup_name="wiki_backup_files_$(date +%s).tar.gz"
     tar -chzvf $backup_name /app/www/public/uploads/ /app/www/storage/uploads/ /app/www/public/img/
     echo "push to s3"
     apk add aws-cli
     aws s3 cp ./$backup_name "$BACKUP_S3_URL"
+    echo "uploaded"
+    rm $backup_name
+    echo "done"
+  backup.files.hook.sh: |
+    echo "setting hook"
+    echo "sh /backup.files.sh" >> /etc/periodic/daily/backup
+    crond
     echo "done"
   restore.db.sh: |
     echo "Checking if restore is needed"

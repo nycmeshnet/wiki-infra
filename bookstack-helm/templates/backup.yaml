@@ -58,6 +58,11 @@ spec:
                     secretKeyRef:
                       name: wiki-secrets
                       key: secret-access-key
+                - name: APP_URL
+                  valueFrom:
+                    configMapKeyRef:
+                      name: wikiconfig
+                      key: APP_URL
           volumes:
             - name: backup-script
               configMap:
