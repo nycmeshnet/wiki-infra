@@ -20,6 +20,11 @@ bookstack:
       requests:
         cpu: 256m
         memory: 384Mi
+    enableReadinessProbe: true
+    readinessProbeInitialDelaySeconds: 5
+    enableLivenessProbe: true
+    livenessProbeInitialDelaySeconds: 5
+    livenessProbePeriodSeconds: 10
   mail:
     host: smtp.gmail.com
     port: 587
@@ -35,6 +40,12 @@ bookstack:
     requests:
       cpu: 512m
       memory: 384Mi
+  enableReadinessProbe: true
+  readinessProbeInitialDelaySeconds: 10
+  enableLivenessProbe: true
+  livenessProbeInitialDelaySeconds: 5
+  livenessProbePeriodSeconds: 5
+
 image:
   repository: lscr.io/linuxserver/bookstack
   pullPolicy: IfNotPresent
