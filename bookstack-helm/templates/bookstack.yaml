@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ include "bookstack-helm.fullname" . }}-bookstack
   namespace: {{ .Values.meshwiki_app_namespace }}
