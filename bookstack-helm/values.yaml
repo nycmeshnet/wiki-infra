@@ -40,7 +40,7 @@ bookstack:
     requests:
       cpu: 512m
       memory: 384Mi
-  enableReadinessProbe: true
+  enableReadinessProbe: false
   readinessProbeInitialDelaySeconds: 20
   enableLivenessProbe: true
   livenessProbeInitialDelaySeconds: 20
@@ -89,15 +89,6 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 8080
-
-# livenessProbe:
-#   httpGet:
-#     path: /
-#     port: http
-# readinessProbe:
-#   httpGet:
-#     path: /
-#     port: http
 
 # autoscaling:
 #   enabled: false
