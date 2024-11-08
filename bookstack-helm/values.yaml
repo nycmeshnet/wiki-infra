@@ -16,6 +16,10 @@ bookstack:
     pvc_name: wikidb
     pvc_size: 5Gi
     port: 3306
+    resources:
+      requests:
+        cpu: 256m
+        memory: 384Mi
   mail:
     host: smtp.gmail.com
     port: 587
@@ -27,7 +31,10 @@ bookstack:
   image_pvc_size: 5Gi
   backup:
     cron_schedule: "33 3 * * *"
-
+  resources:
+    requests:
+      cpu: 512m
+      memory: 384Mi
 image:
   repository: lscr.io/linuxserver/bookstack
   pullPolicy: IfNotPresent
@@ -71,18 +78,6 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 8080
-
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
 
 # livenessProbe:
 #   httpGet:
