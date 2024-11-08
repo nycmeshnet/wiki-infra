@@ -148,7 +148,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /status
-              port: 80
+              port: 8080
             initialDelaySeconds: {{ .Values.bookstack.livenessProbeInitialDelaySeconds }}
             periodSeconds: {{ .Values.bookstack.livenessProbePeriodSeconds }}
           {{- end }}
@@ -156,7 +156,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /status
-              port: 80
+              port: 8080
             initialDelaySeconds: {{ .Values.bookstack.readinessProbeInitialDelaySeconds }}
             periodSeconds: {{ .Values.bookstack.readinessProbePeriodSeconds }}
           {{- end }}
