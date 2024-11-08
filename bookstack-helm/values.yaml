@@ -41,10 +41,10 @@ bookstack:
       cpu: 512m
       memory: 384Mi
   enableReadinessProbe: true
-  readinessProbeInitialDelaySeconds: 10
+  readinessProbeInitialDelaySeconds: 30
   enableLivenessProbe: true
-  livenessProbeInitialDelaySeconds: 5
-  livenessProbePeriodSeconds: 5
+  livenessProbeInitialDelaySeconds: 30
+  livenessProbePeriodSeconds: 15
 
 image:
   repository: lscr.io/linuxserver/bookstack
