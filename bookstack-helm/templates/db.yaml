@@ -64,16 +64,24 @@ spec:
           volumeMounts:
             - name: mysql-data-vol
               mountPath: /config
-          
-          {{- if .Values.bookstack.db.enableReadinessProbe -}}
+          {{- if .Values.bookstack.db.enableReadinessProbe }}
           readinessProbe:
             exec:
               command:
                 - sh 
                 - "-c" 
-                - | 
-                  mysql -uroot -p$MYSQL_ROOT_PASSWORD -e 'SELECT 1'
+                - "mysql -uroot -p$MYSQL_ROOT_PASSWORD -e 'SELECT 1'"
             initialDelaySeconds: {{ .Values.bookstack.db.readinessProbeInitialDelaySeconds }}
+          {{- end }}
+          {{- if .Values.bookstack.db.enableLivenessProbe }}
+          livenessProbe:
+            exec:
+              command:
+                - sh 
+                - "-c" 
+                - "mysql -uroot -p$MYSQL_ROOT_PASSWORD -e 'SELECT 1'"
+            initialDelaySeconds: {{ .Values.bookstack.db.livenessProbeInitialDelaySeconds }}
+            periodSeconds: {{ .Values.bookstack.db.livenessProbePeriodSeconds }}
           {{- end }}
           resources:
             {{- toYaml .Values.bookstack.db.resources | nindent 12 }}
