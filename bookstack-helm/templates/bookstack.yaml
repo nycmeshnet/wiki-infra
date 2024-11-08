@@ -144,7 +144,22 @@ spec:
               mountPath: /backup.files.hook.sh
               subPath: backup.files.hook.sh
               readOnly: true
-
+          {{- if .Values.bookstack.enableLivenessProbe }}
+          livenessProbe:
+            httpGet:
+              path: /status
+              port: 80
+            initialDelaySeconds: {{ .Values.bookstack.livenessProbeInitialDelaySeconds }}
+            periodSeconds: {{ .Values.bookstack.livenessProbePeriodSeconds }}
+          {{- end }}
+          {{- if .Values.bookstack.enableReadinessProbe }}
+          readinessProbe:
+            httpGet:
+              path: /status
+              port: 80
+            initialDelaySeconds: {{ .Values.bookstack.readinessProbeInitialDelaySeconds }}
+            periodSeconds: {{ .Values.bookstack.readinessProbePeriodSeconds }}
+          {{- end }}
           resources:
             {{- toYaml .Values.bookstack.resources | nindent 12 }}
           lifecycle:
