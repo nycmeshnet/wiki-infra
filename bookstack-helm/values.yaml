@@ -41,9 +41,9 @@ bookstack:
       cpu: 512m
       memory: 384Mi
   enableReadinessProbe: true
-  readinessProbeInitialDelaySeconds: 30
+  readinessProbeInitialDelaySeconds: 20
   enableLivenessProbe: true
-  livenessProbeInitialDelaySeconds: 30
+  livenessProbeInitialDelaySeconds: 20
   livenessProbePeriodSeconds: 15
 
 image:
