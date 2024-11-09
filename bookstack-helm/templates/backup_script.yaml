@@ -30,9 +30,11 @@ data:
     rm $backup_name
     echo "done"
   backup.entrypoint.sh: |
-    echo "setting hook"
+    echo "Startup"
     apk add aws-cli
     echo "sh /backup.files.sh" >> /etc/periodic/daily/backup
+    chmod +x /etc/periodic/daily/backup
+    echo "Starting crond"
     crond -f
     echo "Error: Cron exited"
   restore.db.sh: |
