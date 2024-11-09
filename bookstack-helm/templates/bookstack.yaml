@@ -162,7 +162,7 @@ spec:
         - name: backup-cron
           image: alpine:latest
           restartPolicy: Always
-          command: ['sh', '-c', '/backup.entrypoint.sh']
+          command: ['sh', '/backup.entrypoint.sh']
           env:
             - name: APP_URL
               valueFrom:
