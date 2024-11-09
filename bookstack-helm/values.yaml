@@ -45,6 +45,8 @@ bookstack:
   enableLivenessProbe: true
   livenessProbeInitialDelaySeconds: 20
   livenessProbePeriodSeconds: 15
+  service:
+    port: 8080
 
 image:
   repository: lscr.io/linuxserver/bookstack
@@ -83,9 +85,6 @@ securityContext: {}
   # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
-
-service:
-  port: 8080
 
 # autoscaling:
 #   enabled: false
