@@ -11,6 +11,5 @@ spec:
       targetPort: {{ .Values.bookstack.port }}
       protocol: TCP
       name: http
-      nodePort: 30875
   selector:
     app: bookstack
