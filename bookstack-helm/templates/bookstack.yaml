@@ -212,7 +212,7 @@ spec:
                 path: backup.files.sh
         - name: backup-entrypoint
           configMap:
-            name: backup-entrypoint
+            name: backup-script
             items:
               - key: backup.entrypoint.sh
                 path: backup.entrypoint.sh
