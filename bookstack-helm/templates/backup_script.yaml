@@ -32,6 +32,10 @@ data:
   backup.entrypoint.sh: |
     echo "Startup"
     apk add aws-cli
+    mkdir -p /app/www/storage/uploads/
+    ln -s /config/www/files /app/www/storage/uploads/files
+    ln -s /config/www/images /app/www/storage/uploads/images
+    ln -s /config/www/uploads /app/www/public/uploads
     echo "sh /backup.files.sh" >> /etc/periodic/daily/backup
     chmod +x /etc/periodic/daily/backup
     echo "Starting crond"
