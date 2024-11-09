@@ -33,7 +33,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.service.port }}
+              containerPort: {{ .Values.bookstack.service.port }}
               protocol: TCP
           env:
             - name: TZ
@@ -140,10 +140,6 @@ spec:
               mountPath: /backup.files.sh
               subPath: backup.files.sh
               readOnly: true
-            - name: backup-hook
-              mountPath: /backup.files.hook.sh
-              subPath: backup.files.hook.sh
-              readOnly: true
           {{- if .Values.bookstack.enableLivenessProbe }}
           livenessProbe:
             httpGet:
@@ -162,10 +158,45 @@ spec:
           {{- end }}
           resources:
             {{- toYaml .Values.bookstack.resources | nindent 12 }}
-          lifecycle:
-            postStart:
-              exec:
-                command: ["/bin/sh", "/backup.files.hook.sh"]
+      initContainers:
+        - name: backup-cron
+          image: alpine:latest
+          restartPolicy: Always
+          command: ['sh', '/backup.entrypoint.sh']
+          env:
+            - name: APP_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: wikiconfig
+                  key: APP_URL
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: wiki-secrets
+                  key: access-key-id
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: wiki-secrets
+                  key: secret-access-key
+            - name: BACKUP_S3_URL
+              valueFrom:
+                secretKeyRef:
+                  name: wiki-secrets
+                  key: backup-s3-url
+          volumeMounts:
+            - name: config-vol
+              mountPath: /config
+            - name: image-uploads-vol
+              mountPath: /app/www/public/img
+            - name: backup-script
+              mountPath: /backup.files.sh
+              subPath: backup.files.sh
+              readOnly: true
+            - name: backup-entrypoint
+              mountPath: /backup.entrypoint.sh
+              subPath: backup.entrypoint.sh
+              readOnly: true
       volumes:
         - name: config-vol
           persistentVolumeClaim:
@@ -179,12 +210,12 @@ spec:
             items:
               - key: backup.files.sh
                 path: backup.files.sh
-        - name: backup-hook
+        - name: backup-entrypoint
           configMap:
             name: backup-script
             items:
-              - key: backup.files.hook.sh
-                path: backup.files.hook.sh
+              - key: backup.entrypoint.sh
+                path: backup.entrypoint.sh
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

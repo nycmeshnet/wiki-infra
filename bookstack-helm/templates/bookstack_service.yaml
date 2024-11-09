@@ -6,12 +6,10 @@ metadata:
   labels:
     {{- include "bookstack-helm.labels" . | nindent 4 }}
 spec:
-  type: NodePort
   ports:
     - port: {{ .Values.bookstack.port }}
       targetPort: {{ .Values.bookstack.port }}
       protocol: TCP
       name: http
-      nodePort: 30875
   selector:
     app: bookstack

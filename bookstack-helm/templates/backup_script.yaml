@@ -25,16 +25,18 @@ data:
     backup_name="wiki_backup_files_$(date +%s).tar.gz"
     tar -chzvf $backup_name /app/www/public/uploads/ /app/www/storage/uploads/ /app/www/public/img/
     echo "push to s3"
-    apk add aws-cli
     aws s3 cp ./$backup_name "$BACKUP_S3_URL"
     echo "uploaded"
     rm $backup_name
     echo "done"
-  backup.files.hook.sh: |
-    echo "setting hook"
+  backup.entrypoint.sh: |
+    echo "Startup"
+    apk add aws-cli
     echo "sh /backup.files.sh" >> /etc/periodic/daily/backup
-    crond
-    echo "done"
+    chmod +x /etc/periodic/daily/backup
+    echo "Starting crond"
+    crond -f
+    echo "Error: Cron exited"
   restore.db.sh: |
     echo "Checking if restore is needed"
     echo "Restore file is: $RESTORE_S3_URL"
