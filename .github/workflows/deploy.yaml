@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, james/backup_cron ]
   workflow_dispatch:
     branches:
       - master
