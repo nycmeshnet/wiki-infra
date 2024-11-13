@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   push:
-    branches: [ master, john/versionupdate ]
+    branches: [ master ]
   workflow_dispatch:
     branches:
       - master
