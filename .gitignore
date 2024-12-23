@@ -1,2 +1,3 @@
 bookstack-helm/secret.values.yaml
 data/
+.DS_Store
