@@ -12,6 +12,7 @@ data:
     backup_name="wiki_backup_db_$(date +%s).tar.gz"
     tar -chzvf $backup_name wiki.sql
     echo "push to s3"
+    apk update
     apk add aws-cli
     aws s3 cp ./$backup_name "$BACKUP_S3_URL"
     echo "uploaded"
@@ -31,11 +32,13 @@ data:
     echo "done"
   backup.entrypoint.sh: |
     echo "Startup"
+    apk update
     apk add aws-cli
     mkdir -p /app/www/storage/uploads/
     ln -s /config/www/files /app/www/storage/uploads/files
     ln -s /config/www/images /app/www/storage/uploads/images
     ln -s /config/www/uploads /app/www/public/uploads
+    echo "#!/bin/sh" > /etc/periodic/daily/backup
     echo "sh /backup.files.sh" >> /etc/periodic/daily/backup
     chmod +x /etc/periodic/daily/backup
     echo "Starting crond"
@@ -46,6 +49,7 @@ data:
     echo "Restore file is: $RESTORE_S3_URL"
     if [ ! -z "$RESTORE_S3_URL" ]; then
       echo "Restoring from $RESTORE_S3_URL"
+      apk update
       apk add aws-cli
       aws s3 cp "$RESTORE_S3_URL" /tmp/restore.tgz
       echo "downloaded tarball"
@@ -60,6 +64,7 @@ data:
     echo "Restore file is: $RESTORE_S3_URL"
     if [ ! -z "$RESTORE_S3_URL" ]; then
       echo "Restoring from $RESTORE_S3_URL"
+      apk update
       apk add aws-cli
       aws s3 cp "$RESTORE_S3_URL" /tmp/restore.tgz
       echo "downloaded tarball"
