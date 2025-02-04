@@ -70,7 +70,7 @@ spec:
               command:
                 - sh 
                 - "-c" 
-                - "mysql -uroot -p$MYSQL_ROOT_PASSWORD -e 'SELECT 1'"
+                - "mariab -uroot -p$MYSQL_ROOT_PASSWORD -e 'SELECT 1'"
             initialDelaySeconds: {{ .Values.bookstack.db.readinessProbeInitialDelaySeconds }}
           {{- end }}
           {{- if .Values.bookstack.db.enableLivenessProbe }}
@@ -79,7 +79,7 @@ spec:
               command:
                 - sh 
                 - "-c" 
-                - "mysql -uroot -p$MYSQL_ROOT_PASSWORD -e 'SELECT 1'"
+                - "mariab -uroot -p$MYSQL_ROOT_PASSWORD -e 'SELECT 1'"
             initialDelaySeconds: {{ .Values.bookstack.db.livenessProbeInitialDelaySeconds }}
             periodSeconds: {{ .Values.bookstack.db.livenessProbePeriodSeconds }}
           {{- end }}
