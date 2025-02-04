@@ -20,9 +20,9 @@ bookstack:
       requests:
         cpu: 256m
         memory: 384Mi
-    enableReadinessProbe: false
+    enableReadinessProbe: true
     readinessProbeInitialDelaySeconds: 5
-    enableLivenessProbe: false
+    enableLivenessProbe: true
     livenessProbeInitialDelaySeconds: 5
     livenessProbePeriodSeconds: 10
   mail:

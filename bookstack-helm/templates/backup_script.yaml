@@ -7,7 +7,7 @@ data:
   backup.db.sh: |
     if [ "$APP_URL" != "https://wiki.nycmesh.net" ]; then echo "Skip on $APP_URL"; exit 0; fi
     echo "Dumping db"
-    mysqldump -h "$DB_HOST" -u "$DB_USER" --password="$DB_PASS" "$DB_DATABASE" > wiki.sql
+    mariadb-dump -h "$DB_HOST" -u "$DB_USER" --password="$DB_PASS" "$DB_DATABASE" > wiki.sql
     echo "Creating tarball"
     backup_name="wiki_backup_db_$(date +%s).tar.gz"
     tar -chzvf $backup_name wiki.sql
@@ -54,7 +54,7 @@ data:
       aws s3 cp "$RESTORE_S3_URL" /tmp/restore.tgz
       echo "downloaded tarball"
       tar -xzf /tmp/restore.tgz -C /
-      mysql -h "$DB_HOST" -u "$DB_USER" --password="$DB_PASS" $DB_DATABASE < /wiki.sql
+      mariadb -h "$DB_HOST" -u "$DB_USER" --password="$DB_PASS" $DB_DATABASE < /wiki.sql
     else
       echo "Not restoring"
     fi
