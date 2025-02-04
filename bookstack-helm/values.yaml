@@ -51,7 +51,7 @@ bookstack:
 image:
   repository: lscr.io/linuxserver/bookstack
   pullPolicy: IfNotPresent
-  tag: "v24.10.3-ls183"
+  tag: "v24.12.1-ls190"
 
 db_image:
   repository: lscr.io/linuxserver/mariadb
