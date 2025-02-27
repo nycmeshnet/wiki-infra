@@ -5,7 +5,7 @@ This repository holds the helm chart and github actions workflows used to deploy
 ## Updating the Wiki
 
 1. Find the most recent release from [linuxserver/docker-bookstack/releases](https://github.com/linuxserver/docker-bookstack/releases) such as `v25.02-ls195`
-2. Update the `tag:` in [values.yaml](./bookstack-helm/values.yaml#54)
+2. Update the `tag:` in [values.yaml](./bookstack-helm/values.yaml#L54)
 3. Open a pull request with your changes
 
 ## Backups
