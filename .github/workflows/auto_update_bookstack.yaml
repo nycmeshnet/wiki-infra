@@ -1,0 +1,57 @@
+name: Auto Update Bookstack
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '15 0 * * */2'
+
+env:
+  VALUES_YAML: "bookstack-helm/values.yaml"
+
+jobs:
+  auto-update-bookstack:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: Get latest release from linuxserver/docker-bookstack
+        id: get_release
+        run: |
+          REPO="linuxserver/docker-bookstack"
+          response=$(curl -s "https://api.github.com/repos/$REPO/releases/latest")
+          tag_name=$(echo "$response" | jq -r '.tag_name')
+          echo "Latest tag: $tag_name"
+          echo "new_version=$tag_name" >> $GITHUB_OUTPUT
+        env:
+         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get current version
+        id: get_current
+        run: |
+          CURRENT="$(grep -A 5 linuxserver/bookstack $VALUES_YAML | grep tag | awk '{print $2}' | sed "s/[\"']//g")"
+          echo "current_version=$CURRENT" >> $GITHUB_OUTPUT
+
+      - name: Update version number in values.yaml
+        run: |
+          escaped=$(printf '%s\n' "$OLD_VERSION" | sed 's/[.[\*^$/]/\\&/g')
+          sed -i "s/$escaped/$NEW_VERSION/g" $VALUES_YAML
+          echo "--------------------------------------------------"
+          echo "UPDATED $VALUES_YAML"
+          cat $VALUES_YAML
+        env:
+          OLD_VERSION: ${{ steps.get_current.outputs.current_version }}
+          NEW_VERSION: ${{ steps.get_release.outputs.new_version }}
+        if: steps.get_release.outputs.new_version != steps.get_current.outputs.current_version
+
+      - name: Create PR
+        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: "auto_update/${{ steps.get_release.outputs.new_version }}"
+          commit-message: "Auto update bookstack"
+          title: "Update bookstack to ${{ steps.get_release.outputs.new_version }}"
+          body: "This is an automated change, be sure to check the release notes and test before merging!"
+          reviewers: "james-otten"
+        if: steps.get_release.outputs.new_version != steps.get_current.outputs.current_version
