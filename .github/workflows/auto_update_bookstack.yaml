@@ -5,6 +5,10 @@ on:
   schedule:
     - cron: '15 0 * * */2'
 
+permissions:
+  contents: write
+  pull-requests: write
+
 env:
   VALUES_YAML: "bookstack-helm/values.yaml"
 
