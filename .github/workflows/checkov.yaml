@@ -13,7 +13,12 @@ on:
 permissions: read-all
 
 jobs:
-  pull-request:
+  checkov:
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+      statuses: none
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
