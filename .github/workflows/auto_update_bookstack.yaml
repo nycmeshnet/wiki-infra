@@ -25,7 +25,12 @@ jobs:
         run: |
           REPO="linuxserver/docker-bookstack"
           response=$(curl -s "https://api.github.com/repos/$REPO/releases/latest")
-          tag_name=$(echo "$response" | jq -r '.tag_name')
+          tag_name=$(echo "$response" | jq -r '.tag_name | select( . != null )')
+          if [ -z "$tag_name" ]; then
+            echo "The tag name was found to be empty"
+            echo "$response"
+            exit 1
+          fi
           echo "Latest tag: $tag_name"
           echo "new_version=$tag_name" >> $GITHUB_OUTPUT
         env:
