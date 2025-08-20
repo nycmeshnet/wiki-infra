@@ -39,7 +39,7 @@ bookstack:
   resources:
     requests:
       cpu: 512m
-      memory: 384Mi
+      memory: 512Mi
   enableReadinessProbe: false
   readinessProbeInitialDelaySeconds: 20
   enableLivenessProbe: true
