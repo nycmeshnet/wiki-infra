@@ -61,6 +61,6 @@ jobs:
           branch: "auto_update/${{ steps.get_release.outputs.new_version }}"
           commit-message: "Auto update bookstack"
           title: "Update bookstack to ${{ steps.get_release.outputs.new_version }}"
-          body: "This is an automated change to https://github.com/linuxserver/docker-bookstack/releases/tag/${{ steps.get_release.outputs.new_version }}, be sure to check the release notes and test before merging!"
+          body: "This is an automated change to https://github.com/linuxserver/docker-bookstack/releases/tag/${{ steps.get_release.outputs.new_version }} Be sure to check the release notes and test before merging!"
           reviewers: "james-otten,bradyjoh"
         if: steps.get_release.outputs.new_version != steps.get_current.outputs.current_version
