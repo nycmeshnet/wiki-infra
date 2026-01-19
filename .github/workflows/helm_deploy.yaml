@@ -26,7 +26,7 @@ jobs:
           if_key_exists: fail # replace / ignore / fail; optional (defaults to fail)
       
       - name: Setup WireGuard
-        uses: nycmeshnet/vpn-infra-action@main
+        uses: nycmeshnet/nycmesh-vpn-action@main
         with:
           config-name: "ghwiki"
           private-key: ${{ secrets.WG_PRIVATE_KEY }}
